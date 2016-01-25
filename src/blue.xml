@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd"> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context"
+	default-init-method="create" default-destroy-method="clean">
+		<bean id="tri" class="Triangle" name="tree" abstract="true" >
+		<!--  autowire="byName"> -->
+		 <property name="points">
+		<list>
+			<ref bean="p1" />
+		
+		</list>
+		</property>
+		</bean>
+	<!--<property name="p1" ref="p0">
+		 <idref="p0" />
+		</property>
+		 <property name="p2" >
+		<bean class="Point">
+		<property name="x" value="7"/>
+		<property name="y" value="7"/>
+		</bean>
+		</property>
+		<property name="p3">
+		<bean class="Point">
+	<property name="x" value="3"/>
+	<property name="y" value="3"/>
+	</bean>
+		</property>
+<property name="type" value="Isoceles"/>
+<constructor-arg type="java.lang.String" value="Isoceles"/>
+<constructor-arg  type="int" value="37"/>
+ <constructor-arg  index="0" value="Isoceles"/>
+<constructor-arg index="1" value="77"/> -->
+
+
+<bean id="tri1" class="Triangle" parent="tri">
+		<!--  autowire="byName"> -->
+		 <property name="points">
+		<list merge="true">
+			<ref bean="p2" />
+			<ref bean="p3" />
+		
+		</list>
+		</property>
+</bean>
+			<bean id="p1" class="Point">
+			<qualifier value="CR" />
+			<property name="x" value="${pointA.pointX}"/>
+			<property name="y" value="${pointA.pointY}"/>
+			</bean>
+		 <bean id="p2" class="Point">
+		<property name="x" value="7"/>
+		<property name="y" value="7"/>
+		</bean>
+	<bean id="p3" class="Point">
+	<property name="x" value="3"/>
+	<property name="y" value="3"/>
+	</bean>
+	<alias name="tri" alias="t2"/>
+	<context:annotation-config/>
+	 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+	<property name="locations" value="valueSource.properties"/>
+	</bean>
+	<bean class="BeanFPP" />
+	<bean class="DisplayBeanName" />
+	<context:component-scan base-package="default"/>
+	<bean id="txt" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basenames">
+	<list>
+	<value>text</value>
+	
+	</list>
+	</property>
+	</bean>
+		 <bean id="circle" class="Circle">
+		<property name="centre" ref="p1"/>
+		
+		</bean> 
+		<!-- <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" /> -->
+</beans>
